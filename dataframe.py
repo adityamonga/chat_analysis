@@ -39,6 +39,10 @@ class Data:
 
 		return df
 
+	def process_data(self):
+		frame = data.parse_file()
+
+
 if __name__ == '__main__':
 	data = Data('WhatsApp Chat with Anubhavi.txt')
 	df = data.parse_file()
