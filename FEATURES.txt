@@ -8,3 +8,8 @@ average word length / each
 average character length / each
 total words / each
 top words
+
+
+TO ADD
+
+stacked bars

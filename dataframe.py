@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import config
 
 class Data:
 	'''Clean WhatsApp chat and convert to a Pandas dataframe.'''
@@ -9,11 +10,11 @@ class Data:
 	def parse_file(self):
 		
 		with open(self.text_file) as f:
-			data = [line.replace('\n', ' ').strip() for line in f.readlines()]
+			data = [line.replace('\n', ' ').replace(r'[.,?]',' ').strip() for line in f.readlines()]
 		sender = []
 		message = []
 		datetime = []
-		pattern = re.compile(r'(.+\/)(.+\/)(.+,)(.*)- (.+): (.*)', re.S | re.X)
+		pattern = re.compile(r'(.+\/)(.+\/)(.+,)(.*)- (.+?): (.*)', re.S | re.X)
 		for row in data:
 			full_message = pattern.match(row)
 			if full_message is None:
@@ -44,6 +45,5 @@ class Data:
 
 
 if __name__ == '__main__':
-	data = Data('WhatsApp Chat with Anubhavi.txt')
+	data = Data(config.config['FILE_NAME'])
 	df = data.parse_file()
-	print(df.head())
