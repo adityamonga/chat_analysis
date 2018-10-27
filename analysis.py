@@ -79,17 +79,11 @@ class Analyse:
             month[stamp.timestamp.month_name()][stamp.sender] += 1
         return month
 
-    def test_prints(self):
-        # average word length
-        return self.average_word_length(), self.average_character_length()
-        #average characters per message
-        # return self.df.characters        
-
 if __name__ == '__main__':
     data = Data(config.config['FILE_NAME'])
     df = data.parse_file()
     analysed_data = Analyse(df)
 
-    # print(analysed_data.words_from_each())
+    print(analysed_data.words_from_each())
     # print(analysed_data.messages_from_each())
-    print(analysed_data.average_character_length())
+    # print(analysed_data.average_character_length())

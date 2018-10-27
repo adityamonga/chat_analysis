@@ -10,7 +10,8 @@ class Data:
 	def parse_file(self):
 		
 		with open(self.text_file) as f:
-			data = [line.replace('\n', ' ').replace(r'[.,?]',' ').strip() for line in f.readlines()]
+			data = [line for line in f.readlines()]
+
 		sender = []
 		message = []
 		datetime = []
@@ -28,7 +29,7 @@ class Data:
 			sender.append(full_message.group(5).strip())
 
 			try:
-				message.append(full_message.group(6).strip())
+				message.append(re.sub(r'[.,?!\n]',' ', full_message.group(6)).strip())
 			except:
 				message.append('')
 
@@ -44,3 +45,4 @@ class Data:
 if __name__ == '__main__':
 	data = Data(config.config['FILE_NAME'])
 	df = data.parse_file()
+	print(df)
