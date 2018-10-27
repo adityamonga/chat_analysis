@@ -11,22 +11,35 @@ class Analyse:
         
     ## CALL ALL FUNCTIONS FROM COLLECT
     def collect(self, lover=None):
-        dictionary = {'Average Word Length': self.average_word_length(lover), 'Average Character Length': self.average_character_length(lover)}
+        dictionary = {
+        'Average Word Length': self.average_word_length(),
+        'Average Character Length': self.average_character_length(),
+        'Words from each': self.words_from_each(),
+        'Messages from each': self.messages_from_each(),
+        'Top Words': self.top_words(),
+        'Time of Day': self.time_of_day(),
+        'Day of Week': self.day_of_week(),
+        'Messages per Month': self.messages_per_month()}
         return dictionary
 
-    def average_word_length(self, lover=None):
+    def average_word_length(self):
         self.df['words'] = self.df.message.apply(lambda x: len(x.split()))
-        return self.df[self.df.sender == lover].words.mean().round(2)
+        return {lover: self.df[self.df.sender == lover].words.mean().round(2) for lover in 
+        (config.config['MAN'], config.config['WOMAN'])}
 
     def average_character_length(self, lover=None):
         self.df['characters'] = self.df.message.apply(len)
-        return self.df[self.df.sender == lover].characters.mean().round(2)
+        # return self.df[self.df.sender == lover].characters.mean().round(2)
+        return {lover: self.df[self.df.sender == lover].characters.mean().round(2) for lover in 
+        (config.config['MAN'], config.config['WOMAN'])}
 
-    def words_from_each(self, lover=None):
-        return self.messages_from_each(lover) * self.average_word_length(lover)
+    def words_from_each(self):
+        avg_length = self.average_word_length()
+        from_each = self.messages_from_each()
+        return {k: avg_length[k]*from_each[k] for k in (config.config['MAN'], config.config['WOMAN'])}
 
-    def messages_from_each(self, lover=None):
-        return len(self.df[self.df.sender == lover])
+    def messages_from_each(self):
+        return {lover: len(self.df[self.df.sender == lover]) for lover in (config.config['MAN'], config.config['WOMAN'])}
 
     def top_words(self):
         stop_words = set(stopwords.words('english'))
@@ -77,5 +90,6 @@ if __name__ == '__main__':
     df = data.parse_file()
     analysed_data = Analyse(df)
 
-    # print(analysed_data.mess())
-    print(analysed_data.messages_per_month())
+    # print(analysed_data.words_from_each())
+    # print(analysed_data.messages_from_each())
+    print(analysed_data.average_character_length())

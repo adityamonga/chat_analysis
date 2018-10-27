@@ -1,15 +1,15 @@
 * MEANS VISUALIZED
-
+- NO NEED TO VISUALIZE
 
 Messages by each person *
 '' by time of the day *
 '' by day of the week *
-average word length / each
-average character length / each
-total words / each
-top words
+average word length / each -
+average character length / each -
+total words / each *
+top words *
+stacked bars *
 
 
 TO ADD
 
-stacked bars

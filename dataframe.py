@@ -37,12 +37,9 @@ class Data:
 
 		# remove events not associated with a sender
 		df = df[df.sender != ''].reset_index(drop=True)
+		print('DataFrame created..')
 
 		return df
-
-	def process_data(self):
-		frame = data.parse_file()
-
 
 if __name__ == '__main__':
 	data = Data(config.config['FILE_NAME'])
