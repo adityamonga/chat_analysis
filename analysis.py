@@ -10,7 +10,7 @@ class Analyse:
         self.df = df
         
     ## CALL ALL FUNCTIONS FROM COLLECT
-    def collect(self, lover=None):
+    def collect(self, person=None):
         dictionary = {
         'Average Word Length': self.average_word_length(),
         'Average Character Length': self.average_character_length(),
@@ -24,13 +24,13 @@ class Analyse:
 
     def average_word_length(self):
         self.df['words'] = self.df.message.apply(lambda x: len(x.split()))
-        return {lover: self.df[self.df.sender == lover].words.mean().round(2) for lover in 
+        return {person: self.df[self.df.sender == person].words.mean().round(2) for person in 
         (config.config['MAN'], config.config['WOMAN'])}
 
-    def average_character_length(self, lover=None):
+    def average_character_length(self, person=None):
         self.df['characters'] = self.df.message.apply(len)
-        # return self.df[self.df.sender == lover].characters.mean().round(2)
-        return {lover: self.df[self.df.sender == lover].characters.mean().round(2) for lover in 
+        # return self.df[self.df.sender == person].characters.mean().round(2)
+        return {person: self.df[self.df.sender == person].characters.mean().round(2) for person in 
         (config.config['MAN'], config.config['WOMAN'])}
 
     def words_from_each(self):
@@ -39,7 +39,7 @@ class Analyse:
         return {k: avg_length[k]*from_each[k] for k in (config.config['MAN'], config.config['WOMAN'])}
 
     def messages_from_each(self):
-        return {lover: len(self.df[self.df.sender == lover]) for lover in (config.config['MAN'], config.config['WOMAN'])}
+        return {person: len(self.df[self.df.sender == person]) for person in (config.config['MAN'], config.config['WOMAN'])}
 
     def top_words(self):
         stop_words = set(stopwords.words('english'))
